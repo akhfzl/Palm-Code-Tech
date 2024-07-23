@@ -1,0 +1,20 @@
+host: 127.0.0.1
+routes:
+  - path: /chat
+    method: POST
+    description: |
+      Receive a new message associated with a chat and compute an answer.
+    request_body:
+      description: |
+        Simple message with only content as key and an identifier for the current chat.
+      type:
+        message:
+          content: string
+          id: string
+    response:
+      description: |
+        Answer message again with content as key and the id for the current chat
+      type:
+        message:
+          content: string
+          id: string
