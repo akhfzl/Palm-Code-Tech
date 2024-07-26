@@ -25,9 +25,6 @@ class ChatBotResponse(Resource):
 
         # check pattern input
         input_pattern = information_extract(content)
-        date_selected = date_selection(input_pattern['start'])
-        start_time_selected = time_selection(input_pattern['start'])
-        end_time_selected = time_selection(input_pattern['end'])
        
         # if there're not pattern, the generate text is ussually text according to model pretrained
         if not input_pattern:
@@ -43,9 +40,13 @@ class ChatBotResponse(Resource):
         # if there're pattern, the generate text is according to logic conditional
         else:
             # check start booked is available ?
-            time_checking = patterns(input_pattern['start'])
+            date_selected = date_selection(input_pattern['start'])
+            start_time_selected = time_selection(input_pattern['start'])
+            end_time_selected = time_selection(input_pattern['end'])
+            time_checking_start = patterns(input_pattern['start'])
+            time_checking_end = patterns(input_pattern['end'])
             
-            if not time_checking:
+            if not time_checking_start and not time_checking_end:
                 return jsonify({
                     "message": {
                         "id": id,
@@ -65,7 +66,7 @@ class ChatBotResponse(Resource):
                 return jsonify({
                     "message": {
                         "id": id,
-                        "content": "Data already saved"
+                        "content": "Your slots already booked, and the schedule has saved in our system"
                     }
                 })
 
@@ -73,7 +74,7 @@ class ChatBotResponse(Resource):
                 return jsonify({
                     "message": {
                         "id": id,
-                        "content": "Select another time please"
+                        "content": "Your schedule for booked slots has been unavailable, select other schedule please"
                     }
                 })
     

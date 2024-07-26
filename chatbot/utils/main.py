@@ -147,7 +147,7 @@ def time_selection(text):
 def information_extract(teks):
     pattern = r'name:\s*"([^"]+)",\s*start_booked:\s*"([^"]+)",\s*end_booked:\s*"([^"]+)"'
  
-    match = re.search(pattern, teks, re.DOTALL)
+    match = re.search(pattern, teks)
     
     if match:
         name = match.group(1)
@@ -165,8 +165,8 @@ def check_range_zone(input_pattern, df):
 
     df_filter = df[df['Date'] == start_string]
     cond = True 
-
-    for i in range(len(df_filter)):
+   
+    for i in range(len(df_filter['time_start'].values)):
         start = datetime.strptime(df_filter['time_start'][i], formatter)
         end = datetime.strptime(df_filter['time_end'][i], formatter)
 
